@@ -24,7 +24,7 @@ class Tools extends Page
     {
         /** @var \RyanChandler\FilamentTools\Tool $tool */
         $tool = app()->call($configure, [
-            'tool' => new Tool,
+            'tool' => new Tool(),
         ]);
 
         if (! $tool instanceof Tool) {
