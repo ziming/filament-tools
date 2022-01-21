@@ -4,7 +4,6 @@ namespace RyanChandler\FilamentTools\Tests;
 
 use Filament\FilamentServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Artisan;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\FilamentTools\FilamentToolsServiceProvider;

@@ -11,7 +11,7 @@ it('can be mounted', function () {
 });
 
 it('can register a tool', function () {
-    $fixture = (new Tool)->label('Foo');
+    $fixture = (new Tool())->label('Foo');
 
     Tools::register(function (Tool $tool) use ($fixture): Tool {
         return $fixture;
