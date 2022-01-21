@@ -10,13 +10,29 @@ class Tools extends Page
 {
     protected static string $view = 'filament-tools::tools';
 
+    protected static ?string $navigationGroup = null;
+
+    protected static ?string $navigationIcon = null;
+
     /** @var array<\RyanChandler\FilamentTools\Tool> */
     protected static array $tools = [];
+
+    public $data = [];
 
     /** @return array<\RyanChandler\FilamentTools\Tool> */
     public function getToolsProperty(): array
     {
         return static::$tools;
+    }
+
+    public function callToolSubmitAction(string $id): void
+    {
+        /** @var \RyanChandler\FilamentTools\Tool $tool */
+        $tool = $this->tools[$id];
+
+        if ($action = $tool->getSubmitAction()) {
+            $action();
+        }
     }
 
     /** @param \Closure(\Filament\Pages\Page): \Filament\Pages\Page $configure */
@@ -33,7 +49,7 @@ class Tools extends Page
 
         $tool->assert();
 
-        static::$tools[] = $tool;
+        static::$tools[$tool->getId()] = $tool;
     }
 
     public static function navigationGroup(string $group): void

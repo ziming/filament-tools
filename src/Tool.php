@@ -2,9 +2,14 @@
 
 namespace RyanChandler\FilamentTools;
 
-use Closure;
 use Error;
+use Closure;
+use Illuminate\Support\Str;
+use Illuminate\View\Component;
+use Filament\Forms\ComponentContainer;
+use Filament\Forms\Contracts\HasForms;
 use Illuminate\Support\Traits\Macroable;
+use Illuminate\View\View;
 use RyanChandler\FilamentTools\Exceptions\ToolsException;
 
 final class Tool
@@ -21,7 +26,9 @@ final class Tool
 
     protected array $viewData = [];
 
-    protected int $columnSpan = 3;
+    protected int $columnSpan = 4;
+
+    protected string $submitButtonLabel = 'Submit';
 
     public function label(string $label): static
     {
@@ -39,7 +46,7 @@ final class Tool
 
     public function onSubmit(Closure $callback): static
     {
-        $this->onSubmit = $callback;
+        $this->onSubmitCallback = $callback;
 
         return $this;
     }
@@ -59,16 +66,67 @@ final class Tool
         return $this;
     }
 
-    /** @internal */
-    public function hasSchema(): bool
+    public function submitButtonLabel(string $label): static
     {
-        return count($this->schema) > 0;
+        $this->submitButtonLabel = $label;
+
+        return $this;
+    }
+
+    /** @internal */
+    public function getSubmitButtonLabel(): string
+    {
+        return __($this->submitButtonLabel);
     }
 
     /** @internal */
     public function hasView(): bool
     {
         return $this->view !== null;
+    }
+
+    /** @internal */
+    public function getView(): View
+    {
+        return view($this->view, $this->viewData);
+    }
+
+    /** @internal */
+    public function getStatePath(): string
+    {
+        return 'data.' . $this->getId();
+    }
+
+    /** @internal */
+    public function getId(): string
+    {
+        return Str::slug($this->label);
+    }
+
+    /** @internal */
+    public function getForm(HasForms $livewire): ComponentContainer
+    {
+        return ComponentContainer::make($livewire)
+            ->statePath($this->getStatePath())
+            ->schema($this->schema);
+    }
+
+    /** @internal */
+    public function getSubmitAction(): ?Closure
+    {
+        return $this->onSubmitCallback;
+    }
+
+    /** @internal */
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    /** @internal */
+    public function getColumnSpan(): int
+    {
+        return $this->columnSpan;
     }
 
     /** @internal */
