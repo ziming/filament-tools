@@ -2,12 +2,11 @@
 
 namespace RyanChandler\FilamentTools;
 
-use Error;
 use Closure;
-use Illuminate\Support\Str;
-use Illuminate\View\Component;
+use Error;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Contracts\HasForms;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\View\View;
 use RyanChandler\FilamentTools\Exceptions\ToolsException;
