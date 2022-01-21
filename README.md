@@ -88,6 +88,20 @@ Tools::register(function (Tool $tool): Tool {
 });
 ```
 
+### Customising the column span
+
+Each row on the tools page operates on a 12-column grid. The default width for a tool is **3 columns**.
+
+If you would like to customise the width of your tool, you can use the `Tool::columnSpan()` method.
+
+```php
+Tools::register(function (Tool $tool): Tool {
+    return $tool
+        ->label('Clear Cache')
+        ->columnSpan(6);
+});
+```
+
 ## Testing
 
 ```bash

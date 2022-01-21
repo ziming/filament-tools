@@ -21,6 +21,8 @@ final class Tool
 
     protected array $viewData = [];
 
+    protected int $columnSpan = 3;
+
     public function label(string $label): static
     {
         $this->label = $label;
@@ -46,6 +48,13 @@ final class Tool
     {
         $this->view = $view;
         $this->viewData = $data;
+
+        return $this;
+    }
+
+    public function columnSpan(int $columns): static
+    {
+        $this->columnSpan = $columns;
 
         return $this;
     }
