@@ -2,7 +2,10 @@
 
 namespace RyanChandler\FilamentTools\Tests;
 
+use Filament\FilamentServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Artisan;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\FilamentTools\FilamentToolsServiceProvider;
 
@@ -20,12 +23,15 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            LivewireServiceProvider::class,
+            FilamentServiceProvider::class,
             FilamentToolsServiceProvider::class,
         ];
     }
 
     public function getEnvironmentSetUp($app)
     {
+        config()->set('app.key', 'base64:j4TkRHy8hbJCJ255PmYRqn5pvxrhf3QKvJcrBj0M/gY=');
         config()->set('database.default', 'testing');
 
         /*

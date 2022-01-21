@@ -76,6 +76,18 @@ Tools::register(function (Tool $tool): Tool {
 });
 ```
 
+### Rendering a custom view
+
+You can provide a custom view to render inside of the tool by calling the `Tool::view()` method.
+
+```php
+Tools::register(function (Tool $tool): Tool {
+    return $tool
+        ->label('Clear Cache')
+        ->view('tools.clear-cache');
+});
+```
+
 ## Testing
 
 ```bash
