@@ -5,27 +5,12 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/ryangjchandler/filament-tools/Check%20&%20fix%20styling?label=code%20style)](https://github.com/ryangjchandler/filament-tools/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/ryangjchandler/filament-tools.svg?style=flat-square)](https://packagist.org/packages/ryangjchandler/filament-tools)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
 ## Installation
 
-You can install the package via composer:
+You can install the package via Composer:
 
 ```bash
 composer require ryangjchandler/filament-tools
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="filament-tools-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="filament-tools-config"
 ```
 
 Optionally, you can publish the views using
@@ -34,18 +19,61 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="filament-tools-views"
 ```
 
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
 ## Usage
 
+This package will automatically register a new `RyanChandler\FilamentTools\Tools` page in your Filament panel.
+
+### Registering a new tool
+
+You can register a new tool by calling the `Tools::register()` function, providing a `Closure` as the only argument.
+
 ```php
-$filament-tools = new RyanChandler\FilamentTools();
-echo $filament-tools->echoPhrase('Hello, RyanChandler!');
+use RyanChandler\FilamentTools\Tools;
+use RyanChandler\FilamentTools\Tool;
+
+public function boot()
+{
+    Tools::register(function (Tool $tool): Tool {
+        return $tool->label('Clear Cache');
+    });
+}
+```
+
+All tools **require** a label. If a label isn't provided, an instance of `RyanChandler\FilamentTools\Exception\ToolsException` will be thrown.
+
+> The provided `Closure` will be executed via the container so you can type-hint any dependencies you need.
+
+### Tool forms
+
+Each tool can contain it's own unique form. This form makes is simple to ask for input from the user and execute logic based on that input. You can provide your form's schema to the `Tool::schema()` method.
+
+```php
+Tools::register(function (Tool $tool): Tool {
+    return $tool
+        ->label('Clear Cache')
+        ->schema([
+            TextInput::make('tag')
+                ->nullable(),
+        ]);
+});
+```
+
+To run some logic when the form is submitted you can use the `Tool::onSubmit()` method, providing a `Closure` as the only argument. This `Closure` will receive an instance of `RyanChandler\FilamentTools\ToolInput`. This class extends `Illuminate\Support\Collection` so you are free to call any existing Collection methods.
+
+```php
+Tools::register(function (Tool $tool): Tool {
+    return $tool
+        ->label('Clear Cache')
+        ->schema([
+            TextInput::make('tag')
+                ->nullable(),
+        ])
+        ->onSubmit(function (ToolInput $input) {
+            $tag = $input->get('tag');
+
+            // Do something cool here...
+        });
+});
 ```
 
 ## Testing
