@@ -104,6 +104,21 @@ Tools::register(function (Tool $tool): Tool {
 });
 ```
 
+### Authorization
+
+By default, all users will be able to access the Tools page. If you would like to customise this behaviour and restrict access to certain users, you can use the `Tools::can()` method.
+
+```php
+public function boot()
+{
+    Tools::can(function (User $user): bool {
+        return $user->role === Role::Admin;
+    });
+}
+```
+
+If this callback returns `false`, the navigation items **will not** be registered and anybody trying to access the route directly will receive a `403` response.
+
 ## Testing
 
 ```bash
