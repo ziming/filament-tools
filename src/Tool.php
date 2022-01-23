@@ -104,9 +104,9 @@ final class Tool
     }
 
     /** @internal */
-    public function getForm(HasForms $livewire): ComponentContainer
+    public function getForm(ComponentContainer $baseForm): ComponentContainer
     {
-        return ComponentContainer::make($livewire)
+        return $baseForm
             ->statePath($this->getStatePath())
             ->schema($this->schema);
     }

@@ -4,12 +4,12 @@
     @if($tool->hasView())
         {{ $tool->getView() }}
     @else
-        <form wire:submit.prevent="callToolSubmitAction({{ json_encode($tool->getId()) }})">
-            {{ $tool->getForm($this) }}
+        <x-filament::form wire:submit.prevent="callToolSubmitAction({{ json_encode($tool->getId()) }})">
+            {{ $this->getCachedForm($tool->getId()) }}
 
             <x-filament::button type="submit">
                 {{ $tool->getSubmitButtonLabel() }}
             </x-filament::button>
-        </form>
+        </x-filament::form>
     @endif
 </x-filament::card>

@@ -25,13 +25,24 @@ class Tools extends Page
         return static::$tools;
     }
 
+    /** @internal */
+    public function notification(string $status, string $message): static
+    {
+        $this->notify($status, $message);
+
+        return $this;
+    }
+
     public function callToolSubmitAction(string $id): void
     {
         /** @var \RyanChandler\FilamentTools\Tool $tool */
         $tool = $this->tools[$id];
 
         if ($action = $tool->getSubmitAction()) {
-            $action();
+            $input = new ToolInput($this->getCachedForm($id)->getState());
+            $input->component($this);
+
+            $action($input);
         }
     }
 
@@ -50,6 +61,13 @@ class Tools extends Page
         $tool->assert();
 
         static::$tools[$tool->getId()] = $tool;
+    }
+
+    protected function getForms(): array
+    {
+        return collect(static::$tools)->mapWithKeys(function (Tool $tool) {
+            return [$tool->getId() => $tool->getForm($this->makeForm())];
+        })->merge(parent::getForms())->all();
     }
 
     public static function navigationGroup(string $group): void
