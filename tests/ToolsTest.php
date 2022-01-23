@@ -6,6 +6,10 @@ use RyanChandler\FilamentTools\Exceptions\ToolsException;
 use RyanChandler\FilamentTools\Tool;
 use RyanChandler\FilamentTools\Tools;
 
+beforeEach(fn () => Tools::can(function () {
+    return true;
+}));
+
 it('can be mounted', function () {
     Livewire::test(Tools::class)
         ->assertOk();
@@ -51,4 +55,13 @@ it('validates tool forms', function () {
         ->assertHasErrors([
             'data.foo.bar' => 'required',
         ]);
+});
+
+it('can restrict access', function () {
+    Tools::can(function () {
+        return false;
+    });
+
+    Livewire::test(Tools::class)
+        ->assertForbidden();
 });
