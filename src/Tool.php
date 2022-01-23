@@ -5,7 +5,6 @@ namespace RyanChandler\FilamentTools;
 use Closure;
 use Error;
 use Filament\Forms\ComponentContainer;
-use Filament\Forms\Contracts\HasForms;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\View\View;
