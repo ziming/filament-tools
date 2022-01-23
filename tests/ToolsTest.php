@@ -1,5 +1,6 @@
 <?php
 
+use Filament\Forms\Components\TextInput;
 use Livewire\Livewire;
 use RyanChandler\FilamentTools\Exceptions\ToolsException;
 use RyanChandler\FilamentTools\Tool;
@@ -32,3 +33,22 @@ it('throws an exception if no label is set', function () {
         return $tool;
     });
 })->throws(ToolsException::class, 'All tools must have a label. Please set one by calling the `Tool::label()` method.');
+
+it('validates tool forms', function () {
+    Tools::register(function (Tool $tool) {
+        return $tool
+            ->label('Foo')
+            ->schema([
+                TextInput::make('bar')
+                    ->required(),
+            ])
+            ->onSubmit(fn () => []);
+    });
+
+    Livewire::test(Tools::class)
+        ->assertSee('Foo')
+        ->call('callToolSubmitAction', 'foo')
+        ->assertHasErrors([
+            'data.foo.bar' => 'required',
+        ]);
+});
