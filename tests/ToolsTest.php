@@ -4,6 +4,7 @@ use Filament\Forms\Components\TextInput;
 use Livewire\Livewire;
 use RyanChandler\FilamentTools\Exceptions\ToolsException;
 use RyanChandler\FilamentTools\Tool;
+use RyanChandler\FilamentTools\ToolInput;
 use RyanChandler\FilamentTools\Tools;
 
 beforeEach(fn () => Tools::can(function () {
@@ -55,6 +56,30 @@ it('validates tool forms', function () {
         ->assertHasErrors([
             'data.foo.bar' => 'required',
         ]);
+
+    Livewire::test(Tools::class)
+        ->assertSee('Foo')
+        ->set('data.foo.bar', 'foobar')
+        ->call('callToolSubmitAction', 'foo')
+        ->assertHasNoErrors();
+});
+
+it('can clear form from submit action', function () {
+    Tools::register(function (Tool $tool) {
+        return $tool
+            ->label('Foo')
+            ->schema([
+                TextInput::make('bar')
+                    ->required(),
+            ])
+            ->onSubmit(fn (ToolInput $input) => $input->clear());
+    });
+
+    Livewire::test(Tools::class)
+        ->assertSee('Foo')
+        ->set('data.foo.bar', 'foobar')
+        ->call('callToolSubmitAction', 'foo')
+        ->assertNotSet('data.foo.bar', 'foobar');
 });
 
 it('can restrict access', function () {

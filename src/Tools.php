@@ -3,12 +3,15 @@
 namespace RyanChandler\FilamentTools;
 
 use Closure;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 use RyanChandler\FilamentTools\Exceptions\ToolsException;
 
 class Tools extends Page
 {
+    use InteractsWithForms;
+
     protected static string $view = 'filament-tools::tools';
 
     protected static ?string $navigationGroup = null;
@@ -48,9 +51,8 @@ class Tools extends Page
 
         if ($action = $tool->getSubmitAction()) {
             $input = new ToolInput($this->getCachedForm($id)->getState());
-            $input->component($this);
 
-            $action($input);
+            $action($input->component($this)->tool($tool));
         }
     }
 
