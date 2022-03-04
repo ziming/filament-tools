@@ -78,6 +78,21 @@ Tools::register(function (Tool $tool): Tool {
 });
 ```
 
+#### Clearing form data on submit
+
+By default, the state for your tool's form will be preserved between submissions.
+
+If you would like to clear the data, you can call the `ToolInput::clear()` method from inside of your submit callback.
+
+```php
+$tool->onSubmit(function (ToolInput $input) {
+    // Do something with input here...
+
+    $input->clear();
+    $input->notify('Success!');
+});
+```
+
 ### Rendering a custom view
 
 You can provide a custom view to render inside of the tool by calling the `Tool::view()` method.
