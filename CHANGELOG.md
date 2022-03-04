@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tools` will be documented in this file.
 
+## v0.4.0 - 2022-03-04
+
+## What's Changed
+
+- feature: support clearing form data on submit (see docs)
+
+**Full Changelog**: https://github.com/ryangjchandler/filament-tools/compare/v0.3.0...v0.4.0
+
 ## v0.3.0 - 2022-02-27
 
 ## What's Changed
