@@ -2,6 +2,20 @@
 
 All notable changes to `filament-tools` will be documented in this file.
 
+## v0.4.1 - 2022-04-25
+
+## What's Changed
+
+- build(deps): bump dependabot/fetch-metadata from 1.2.1 to 1.3.0 by @dependabot in https://github.com/ryangjchandler/filament-tools/pull/7
+- build(deps): bump dependabot/fetch-metadata from 1.3.0 to 1.3.1 by @dependabot in https://github.com/ryangjchandler/filament-tools/pull/10
+- added a gap to improve visualization when there are multiple tools by @inerba in https://github.com/ryangjchandler/filament-tools/pull/9
+
+## New Contributors
+
+- @inerba made their first contribution in https://github.com/ryangjchandler/filament-tools/pull/9
+
+**Full Changelog**: https://github.com/ryangjchandler/filament-tools/compare/v0.4.0...v0.4.1
+
 ## v0.4.0 - 2022-03-04
 
 ## What's Changed
